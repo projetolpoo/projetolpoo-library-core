@@ -26,21 +26,22 @@ public class LibrarianController {
         try {
             Input input = Input.getInstance();
 
-            String name = input.getString("Type the name (between 3 and 255 characters): ", 3, 255);
-            String password = input.getString("Type the password (between 8 and 255 characters): ", 8, 255);
+            String name = input.getString("Type the name (between 3 and 255 characters): ", 3, 255, true);
+            String password = input.getString("Type the password (between 8 and 255 characters): ", 8, 255, true);
             LocalDate birthDate = input.getDate(
                 "Type the birth date (between 18 and 90 years)", 
                 LocalDate.now().minusYears(18), 
                 LocalDate.now().minusYears(90), 
-                "dd/mm/yyyy"
+                "dd/MM/yyyy",
+                true
             );
-            String documentNumber = input.getString("Type your document number (11 characters): ", 11, 11);
+            String documentNumber = input.getString("Type your document number (between 4 and 255 characters): ", 4, 255, true);
 
             if (this.userRepository.exists(documentNumber)) {
                 throw new Exception("sorry, librarian already exists");
             }
 
-            int id = input.getInt("Type the library's id: ", 1, 9999);
+            int id = input.getInt("Type the library's id: ", 1, 9999, true);
 
             Library library = this.libraryRepository.getById(id);
 
@@ -63,53 +64,56 @@ public class LibrarianController {
     public void update(){
         try {
             Input input = Input.getInstance();
+            Authentication auth = Authentication.getInstance();
 
-            int librarianId = input.getInt("Type the librarian's id: ", 1, 9999);
+            int librarianId = input.getInt("Type the librarian's id: ", 1, 9999, true);
 
             User librarian = this.userRepository.getById(librarianId);
 
-            if (librarian == null || librarian instanceof User) {
-                throw new Exception("Sorry, invalid library :(\n");
+            if (librarian == null || !(librarian instanceof Librarian) || librarian.getId() == auth.getUser().getId()) {
+                throw new Exception("Sorry, invalid librarian :(\n");
             }
 
-            String name = input.getString("Type the name (between 3 and 255 characters): ", 3, 255);
-            String password = input.getString("Type the password (between 8 and 255 characters): ", 8, 255);
+            String name = input.getString("Type the name (between 3 and 255 characters): ", 3, 255, false);
+            String password = input.getString("Type the password (between 8 and 255 characters): ", 8, 255, false);
             LocalDate birthDate = input.getDate(
                 "Type the birth date (between 18 and 90 years)", 
                 LocalDate.now().minusYears(18), 
                 LocalDate.now().minusYears(90), 
-                "dd/mm/yyyy"
+                "dd/MM/yyyy",
+                false
             );
-            String documentNumber = input.getString("Type your document number (11 characters): ", 11, 11);
+            String documentNumber = input.getString("Type your document number (between 4 and 255 characters): ", 4, 255, false);
 
-            if (this.userRepository.exists(documentNumber)) {
-                throw new Exception("sorry, librarian already exists");
+            if (documentNumber != null) {
+                if (this.userRepository.exists(documentNumber)) {
+                    throw new Exception("sorry, librarian already exists");
+                }
             }
 
-            int libraryId = input.getInt("Type the library's id: ", 1, 9999);
+            Integer libraryId = input.getInt("Type the library's id: ", 1, 9999, false);
 
-            Library library = this.libraryRepository.getById(libraryId);
-
-            if (library == null) {
-                throw new Exception("Sorry, invalid library :(\n");
-            }
+            Library library = (libraryId == null) ? null : this.libraryRepository.getById(libraryId);
 
             Librarian updatedLibrarian = (Librarian) librarian;
 
-            Library oldLibrary = updatedLibrarian.getLibrary();
+            if (library != null) {
+                Library oldLibrary = updatedLibrarian.getLibrary();
+    
+                oldLibrary.removeLibrarian(updatedLibrarian);
+                this.libraryRepository.update(library);
+            }
 
-            oldLibrary.removeLibrarian(updatedLibrarian);
-            this.libraryRepository.update(library);
+            updatedLibrarian.setName((name != null) ? name : updatedLibrarian.getName());
+            updatedLibrarian.setPassword((password != null) ? Authentication.sha256(password) : updatedLibrarian.getPassword());
+            updatedLibrarian.setBirthDate((birthDate != null) ? birthDate : updatedLibrarian.getBirthDate());
+            updatedLibrarian.setDocumentNumber((documentNumber != null) ? documentNumber : updatedLibrarian.getDocumentNumber());
 
-
-            updatedLibrarian.setName(name);
-            updatedLibrarian.setPassword(Authentication.sha256(password));
-            updatedLibrarian.setBirthDate(birthDate);
-            updatedLibrarian.setDocumentNumber(documentNumber);
-            updatedLibrarian.setLibrary(library);
-
-            library.addLibrarian(updatedLibrarian);
-            this.libraryRepository.update(library);
+            if (library != null) {
+                updatedLibrarian.setLibrary(library);
+                library.addLibrarian(updatedLibrarian);
+                this.libraryRepository.update(library);
+            }
 
             this.userRepository.update(librarian);
             System.out.println("Librarian sucefully created!!\n");
@@ -133,8 +137,14 @@ public class LibrarianController {
     public void delete() {
         try {
             Input input = Input.getInstance();
+            Authentication auth = Authentication.getInstance();
 
-            int id = input.getInt("Type the librarian's id: ", 1, 9999);
+            int id = input.getInt("Type the librarian's id: ", 1, 9999, true);
+
+            if (id == auth.getUser().getId()) {
+                System.out.println("Sorry, Librarian not found :(\n");
+                return;
+            }
 
             boolean result = this.userRepository.delete(id);
 
@@ -147,6 +157,5 @@ public class LibrarianController {
             System.out.println(e.getMessage());
         }
     }
-
 
 }

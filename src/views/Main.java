@@ -44,7 +44,7 @@ public class Main {
     
             int choice;
             try {
-                choice = Input.getInstance().getInt("Type the option: ", 1, 3);
+                choice = Input.getInstance().getInt("Type the option: ", 1, 3, true);
             } catch (Exception e) {
                 choice = 999;
             }

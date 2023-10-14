@@ -37,6 +37,6 @@ public class Library {
 
     @Override
     public String toString() {
-        return "Library [id=" + id + ", name=" + name + ", librarians=" + librarians + "]";
+        return "Library [id=" + id + ", name=" + name + ", librarians=" + librarians.toString() + "]";
     }
 }

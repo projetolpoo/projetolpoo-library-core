@@ -26,12 +26,12 @@ public class Input {
         this.scanner = new Scanner(System.in);
     }
 
-    public int getInt(String prompt, int min, int max) throws Exception {
-        int value;
+    public Integer getInt(String prompt, int min, int max, boolean validate) throws Exception {
+        Integer value;
         while (true) {
             try {
                 System.out.print(prompt);
-                value = Integer.parseInt(scanner.nextLine());
+                value = Integer.parseInt(scanner.nextLine().trim());
 
                 if (value < min || value > max) {
                     throw new Exception("value is invalid");
@@ -39,6 +39,10 @@ public class Input {
 
                 break; // Input is valid, exit the loop
             } catch (NumberFormatException e) {
+                if (!validate) {
+                    value = null;
+                    break;
+                }
                 throw new Exception("Invalid input. Please enter a valid integer.");
             } catch (Exception e) {
                 throw e;
@@ -47,12 +51,12 @@ public class Input {
         return value;
     }
 
-    public double getDouble(String prompt, int min, int max) throws Exception {
-        double value;
+    public Double getDouble(String prompt, int min, int max, boolean validate) throws Exception {
+        Double value;
         while (true) {
             try {
                 System.out.print(prompt);
-                value = Double.parseDouble(scanner.nextLine());
+                value = Double.parseDouble(scanner.nextLine().trim());
 
                 if (value < min || value > max) {
                     throw new Exception("value is invalid");
@@ -60,6 +64,10 @@ public class Input {
 
                 break; // Input is valid, exit the loop
             } catch (NumberFormatException e) {
+                if (!validate) {
+                    value = null;
+                    break;
+                }
                 throw new Exception("Invalid input. Please enter a valid double.");
             } catch (Exception e) {
                 throw e;
@@ -68,12 +76,12 @@ public class Input {
         return value;
     }
 
-    public String getString(String prompt, int min, int max) throws Exception {
+    public String getString(String prompt, int min, int max, boolean validate) throws Exception {
         String value;
         while (true) {
             try {
                 System.out.print(prompt);
-                value = scanner.nextLine();
+                value = scanner.nextLine().trim();
     
                 if (value.isBlank() || value.length() < min || value.length() > max) {
                     throw new Exception("value is invalid");
@@ -81,6 +89,10 @@ public class Input {
 
                 break;
             } catch (Exception e) {
+                if (!validate) {
+                    value = null;
+                    break;
+                }
                 throw e;
             }
         }
@@ -88,23 +100,27 @@ public class Input {
         return value;
     }
 
-    public LocalDate getDate(String prompt, LocalDate min, LocalDate max, String pattern) throws Exception {
+    public LocalDate getDate(String prompt, LocalDate min, LocalDate max, String pattern, boolean validate) throws Exception {
         LocalDate result;
         while (true) {
             try {
                 System.out.print(prompt + "(" + pattern + "): ");
-                String value = scanner.nextLine();
+                String value = scanner.nextLine().trim();
 
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
 
                 result = LocalDate.parse(value, formatter);
     
-                if (result.isBefore(min) || result.isAfter(max)) {
+                if (result.isAfter(min) || result.isBefore(max)) {
                     throw new Exception("value is invalid");
                 }
 
                 break;
             } catch (Exception e) {
+                if (!validate) {
+                    result = null;
+                    break;
+                }
                 throw e;
             }
         }

@@ -23,8 +23,8 @@ public class UserController {
             Input input = Input.getInstance();
             Authentication auth = Authentication.getInstance();
 
-            String documentNumber = input.getString("Type your document number: ", 4, 255);
-            String password = input.getString("Type the password: ", 6, 255);
+            String documentNumber = input.getString("Type your document number: ", 4, 255, true);
+            String password = input.getString("Type the password: ", 6, 255, true);
             
             User user = this.userRepository.getByDocumentNumber(documentNumber);
 
@@ -50,15 +50,16 @@ public class UserController {
         try {
             Input input = Input.getInstance();
 
-            String name = input.getString("Type the name (between 3 and 255 characters): ", 3, 255);
-            String password = input.getString("Type the password (between 8 and 255 characters): ", 8, 255);
+            String name = input.getString("Type the name (between 3 and 255 characters): ", 3, 255, true);
+            String password = input.getString("Type the password (between 8 and 255 characters): ", 8, 255, true);
             LocalDate birthDate = input.getDate(
                 "Type the birth date (between 18 and 90 years)", 
                 LocalDate.now().minusYears(18), 
                 LocalDate.now().minusYears(90), 
-                "dd/mm/yyyy"
+                "dd/MM/yyyy",
+                true
             );
-            String documentNumber = input.getString("Type your document number (11 characters): ", 11, 11);
+            String documentNumber = input.getString("Type your document number (11 characters): ", 11, 11, true);
 
             if (this.userRepository.exists(documentNumber)) {
                 throw new Exception("sorry, user already exists");

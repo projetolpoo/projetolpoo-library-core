@@ -15,7 +15,7 @@ public class LibraryController {
     public void create(){
         try {
             Input input = Input.getInstance();
-            String name = input.getString("Type the name: ", 3, 255);
+            String name = input.getString("Type the name: ", 3, 255, true);
             
             Library library = new Library(name);
             this.libraryRepository.add(library);
@@ -30,8 +30,8 @@ public class LibraryController {
         try {
             Input input = Input.getInstance();
 
-            int id = input.getInt("Type the library's id: ", 1, 9999);
-            String name = input.getString("Type the name: ", 3, 255);
+            int id = input.getInt("Type the library's id: ", 1, 9999, true);
+            String name = input.getString("Type the name: ", 3, 255, false);
 
             Library library = this.libraryRepository.getById(id);
 
@@ -39,7 +39,7 @@ public class LibraryController {
                 throw new Exception("Sorry, invalid library :(\n");
             }
 
-            library.setName(name);
+            library.setName((name != null) ? name : library.getName());
             this.libraryRepository.update(library);
 
             System.out.println("Library sucefully updated!!\n");
@@ -62,7 +62,7 @@ public class LibraryController {
         try {
             Input input = Input.getInstance();
 
-            int id = input.getInt("Type the library's id: ", 1, 9999);
+            int id = input.getInt("Type the library's id: ", 1, 9999, true);
 
             boolean result = this.libraryRepository.delete(id);
 
