@@ -83,7 +83,7 @@ public class Input {
                 System.out.print(prompt);
                 value = scanner.nextLine().trim();
     
-                if (value.isBlank() || value.length() < min || value.length() > max) {
+                if (value.length() < min || value.length() > max) {
                     throw new Exception("value is invalid");
                 }
 
