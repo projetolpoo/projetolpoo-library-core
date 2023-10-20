@@ -7,6 +7,8 @@ public class Library {
     private int id;
     private String name;
     private List<Librarian> librarians = new ArrayList<>();
+    private List<LibraryItem> libraryItems = new ArrayList<>();
+
 
     public Library(String name) {
         this.name = name;
@@ -33,6 +35,17 @@ public class Library {
 
     public void removeLibrarian(Librarian librarian) {
         librarians.remove(librarian);
+    }
+    public List<LibraryItem> getItems() {
+    	return libraryItems;
+    }
+    
+    public void addItem(LibraryItem item) {
+    	libraryItems.add(item);
+    }
+    
+    public void removeItem(LibraryItem item) {
+    	libraryItems.remove(item);
     }
 
     @Override

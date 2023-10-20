@@ -1,0 +1,7 @@
+package src.enums;
+
+public enum GenderEnum {
+    FANTASIA, FICCAO
+	,ACAO, HORROR, CONTO, ROMANCE, INFANTIL
+	,BIOGRAFIA,CRIME, HUMOR, TECNOLOGIA;
+}
