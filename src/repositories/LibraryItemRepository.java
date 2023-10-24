@@ -26,8 +26,8 @@ public class LibraryItemRepository implements IRepository<LibraryItem>{
     
 	@Override
 	public void add(LibraryItem item) {
-		item.setIdItem(itemIdCounter++);
-        items.put(item.getIdItem(), item);
+		item.setId(itemIdCounter++);
+        items.put(item.getId(), item);
 	}
 
 	@Override
@@ -42,8 +42,8 @@ public class LibraryItemRepository implements IRepository<LibraryItem>{
 
 	@Override
 	public boolean update(LibraryItem item) {
-		if (items.containsKey(item.getIdItem())) {
-            items.put(item.getIdItem(), item);
+		if (items.containsKey(item.getId())) {
+            items.put(item.getId(), item);
             return true;
         }
         return false; // item não encontrado

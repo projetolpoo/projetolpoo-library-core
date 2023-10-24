@@ -7,8 +7,8 @@ public class Book extends LibraryItem{
     private String isbn;
 	private LocalDate publication;
 	
-	public Book(String title, String author, int inventory, Library library
-			, double fineValue, GenderEnum gender,
+	public Book(String title, String author, int inventory, Library library,
+			double fineValue, GenderEnum gender,
 			String isbn, LocalDate publication) {
 		super(title, author, inventory, library, fineValue, gender);
 		this.isbn = isbn;

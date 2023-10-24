@@ -2,7 +2,7 @@ package src.models;
 
 import src.enums.GenderEnum;
 
-public class LibraryItem {
+public abstract class LibraryItem {
     protected String title;
 	protected String author;
 	protected int inventory;
@@ -58,11 +58,11 @@ public class LibraryItem {
 	public void setGender(GenderEnum gender) {
 		this.gender = gender;
 	}
-	public int getIdItem() {
+	public int getId() {
 		return id;
 	}
-	public void setIdItem(int idItem) {
-		this.id = idItem;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	@Override

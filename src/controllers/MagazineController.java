@@ -2,6 +2,7 @@ package src.controllers;
 
 import java.time.LocalDate;
 
+import src.enums.GenderEnum;
 import src.helpers.Input;
 import src.models.Library;
 import src.models.LibraryItem;
@@ -24,6 +25,7 @@ public class MagazineController{
 
 			String title=input.getString("Magazine title: ", 1, 50, true);
 			String author=input.getString("Magazine author: ", 4, 50, true);
+			GenderEnum gender = Input.getInstance().getGender(true);
 			int inventory=input.getInt("Quantity: ", 10, 50000, true);
 			double fineValue=input.getDouble("Value fine: ", 0, 50, true);
 			String issue = input.getString("ISBN: ", 10, 20, true);
@@ -42,7 +44,7 @@ public class MagazineController{
             if (library == null) {
                 throw new Exception("Sorry, invalid library :(\n");
             }
-            Magazine magazine = new Magazine(title, author, inventory, library, fineValue, null, issue, publication);
+            Magazine magazine = new Magazine(title, author, inventory, library, fineValue, gender, issue, publication);
             this.itemRepository.add(magazine);
             
             library.addItem(magazine);//adiciona o item criado na lista de item em Library
@@ -66,6 +68,7 @@ public class MagazineController{
 
 				String title=input.getString("Magazine title: ", 1, 50, false);
 				String author=input.getString("Magazine author: ", 4, 50, false);
+				GenderEnum gender = Input.getInstance().getGender(false);
 				int inventory=input.getInt("Quantity: ", 0, 50000, false);
 				double fineValue=input.getDouble("Value fine: ", 0, 50, false);
 				String isbn = input.getString("Issue number: ", 10, 20, false);
@@ -83,11 +86,14 @@ public class MagazineController{
 
 	            magazineToUpdate.setTitle((title != null) ? title : magazineToUpdate.getTitle());
 	            magazineToUpdate.setAuthor((author != null) ? author : magazineToUpdate.getAuthor());
+				magazineToUpdate.setGender((gender != null) ? gender : magazineToUpdate.getGender());
 	            magazineToUpdate.setInventory((inventory != 0) ? inventory : magazineToUpdate.getInventory());
 	            magazineToUpdate.setFineValue((fineValue != 0) ? fineValue : magazineToUpdate.getFineValue());
 	            magazineToUpdate.setIssueNumber((isbn != null) ? isbn : magazineToUpdate.getIssueNumber());
 	            magazineToUpdate.setPublication((publication != null) ? publication : magazineToUpdate.getPublication());
 	            magazineToUpdate.setLibrary((library != null) ? library : magazineToUpdate.getLibrary());
+
+				this.itemRepository.update(magazineToUpdate);
 	            System.out.println("update ta ok!");
 			}else System.out.println("Magazine not found!");
 			
@@ -101,7 +107,7 @@ public class MagazineController{
             for (LibraryItem item: itemRepository.getAll()) {
                 if (item instanceof Magazine) {
                 	Magazine i=((Magazine)item);
-                    System.out.println(i.getIdItem() + ". " + i.toString());
+                    System.out.println(i.getId() + ". " + i.toString());
                 }
             }
         } catch (Exception e) {

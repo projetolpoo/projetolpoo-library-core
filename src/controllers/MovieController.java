@@ -2,6 +2,7 @@ package src.controllers;
 
 import java.time.LocalDate;
 
+import src.enums.GenderEnum;
 import src.helpers.Input;
 import src.models.Library;
 import src.models.LibraryItem;
@@ -24,6 +25,7 @@ public class MovieController {
 
 			String title=input.getString("Movie title: ", 1, 50, true);
 			String author=input.getString("Movie author: ", 4, 50, true);
+			GenderEnum gender = Input.getInstance().getGender(true);
 			int inventory=input.getInt("Quantity: ", 10, 50000, true);
 			double fineValue=input.getDouble("Value fine: ", 0, 50, true);
 			int duration = input.getInt("Durantion: ", 30, 600, true);
@@ -42,7 +44,7 @@ public class MovieController {
             if (library == null) {
                 throw new Exception("Sorry, invalid library :(\n");
             }
-            Movie movie = new Movie(title, author, inventory, library, fineValue, null, publication, duration);
+            Movie movie = new Movie(title, author, inventory, library, fineValue, gender, publication, duration);
             this.itemRepository.add(movie);
             
             library.addItem(movie);//adiciona o item criado na lista de item em Library
@@ -65,9 +67,10 @@ public class MovieController {
 				Movie movieToUpdate=(Movie) item;
 				String title=input.getString("Movie title: ", 1, 50, false);
 				String author=input.getString("Movie author: ", 4, 50, false);
+				GenderEnum gender = Input.getInstance().getGender(false);
 				int inventory=input.getInt("Quantity: ", 0, 50000, false);
 				double fineValue=input.getDouble("Value fine: ", 0, 50, false);
-				int duration = input.getInt("ISBN: ", 30, 600, false);
+				int duration = input.getInt("Duration: ", 30, 600, false);
 				LocalDate publication = input.getDate(
 		                "Type the publication date: ", 
 		                LocalDate.now().minusYears(-1000), 
@@ -82,17 +85,20 @@ public class MovieController {
 	            
 	            movieToUpdate.setTitle((title != null) ? title : movieToUpdate.getTitle());
 	            movieToUpdate.setAuthor((author != null) ? author : movieToUpdate.getAuthor());
+				movieToUpdate.setGender((gender != null) ? gender : movieToUpdate.getGender());
 	            movieToUpdate.setInventory((inventory != 0) ? inventory : movieToUpdate.getInventory());
 	            movieToUpdate.setFineValue((fineValue != 0) ? fineValue : movieToUpdate.getFineValue());
 	            movieToUpdate.setDuration((duration != 0) ? duration : movieToUpdate.getDuration());
 	            movieToUpdate.setPublication((publication != null) ? publication : movieToUpdate.getPublication());
 	            movieToUpdate.setLibrary((library != null) ? library : movieToUpdate.getLibrary());
+
+				this.itemRepository.update(movieToUpdate);
 	            System.out.println("update ta ok!");
 			}else System.out.println("Movie not found!");
 			
 		} catch (Exception e) {
 			System.out.println("Error!");
-			e.getMessage();
+			System.out.println( e.getMessage());
 		}
     }
     public void list() {
@@ -100,7 +106,7 @@ public class MovieController {
             for (LibraryItem item: itemRepository.getAll()) {
                 if (item instanceof Movie) {
                 	Movie i=((Movie)item);
-                    System.out.println(i.getIdItem() + ". " + i.toString());
+                    System.out.println(i.getId() + ". " + i.toString());
                 }
             }
         } catch (Exception e) {

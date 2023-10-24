@@ -2,6 +2,7 @@ package src.controllers;
 
 import java.time.LocalDate;
 
+import src.enums.GenderEnum;
 import src.helpers.Input;
 import src.models.Book;
 import src.models.Library;
@@ -25,6 +26,7 @@ public class BookController {
 
 			String title=input.getString("Book title: ", 1, 50, true);
 			String author=input.getString("Book author: ", 4, 50, true);
+			GenderEnum gender = Input.getInstance().getGender(true);
 			int inventory=input.getInt("Quantity: ", 10, 50000, true);
 			double fineValue=input.getDouble("Value fine: ", 0, 20, true);
 			String isbn = input.getString("ISBN: ", 10, 20, true);
@@ -44,11 +46,11 @@ public class BookController {
                 throw new Exception("Sorry, invalid library :(\n");
             }
             
-            Book book=new Book(title, author, inventory, library, fineValue, null, isbn, publication); //null é o genero
+            Book book=new Book(title, author, inventory, library, fineValue, gender, isbn, publication);
             this.itemRepository.add(book);
             
             library.addItem(book);//adiciona o item criado na lista de item em Library
-            this.libraryRepository.update(library);//como um novo item foi adicionado na Library, precisar ser atualizada
+            this.libraryRepository.update(library);//como um novo item foi adicionado na Library, precisa ser atualizada
             
             System.out.println("Book sucefully created!\n");
 		} catch (Exception e) {
@@ -66,6 +68,7 @@ public class BookController {
 				Book book=(Book) item;
 				String title=input.getString("Book title: ", 1, 50, false);
 				String author=input.getString("Book author: ", 4, 50, false);
+				GenderEnum gender = Input.getInstance().getGender(false);
 				int inventory=input.getInt("Quantity: ", 0, 50000, false);
 				double fineValue=input.getDouble("Value fine: ", 0, 50, false);
 				String isbn = input.getString("ISBN: ", 10, 20, false);
@@ -82,11 +85,14 @@ public class BookController {
 	            
 	            book.setTitle((title != null) ? title : book.getTitle());
 	            book.setAuthor((author != null) ? author : book.getAuthor());
+				book.setGender((gender != null) ? gender : book.getGender());
 	            book.setInventory((inventory != 0) ? inventory : book.getInventory());
 	            book.setFineValue((fineValue != 0) ? fineValue : book.getFineValue());
 	            book.setIsbn((isbn != null) ? isbn : book.getIsbn());
 	            book.setPublication((publication != null) ? publication : book.getPublication());
 	            book.setLibrary((library != null) ? library : book.getLibrary());
+
+				this.itemRepository.update(book);
 	            System.out.println("update ta ok!");
 			}else System.out.println("Book not found!");
 			
@@ -100,7 +106,7 @@ public class BookController {
             for (LibraryItem item: itemRepository.getAll()) {
                 if (item instanceof Book) {
                 	Book i=((Book)item);
-                    System.out.println(i.getIdItem() + ". " + i.toString());
+                    System.out.println(i.getId() + ". " + i.toString());
                 }
             }
         } catch (Exception e) {
