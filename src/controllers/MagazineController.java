@@ -31,8 +31,8 @@ public class MagazineController{
 			String issue = input.getString("ISBN: ", 10, 20, true);
 			LocalDate publication = input.getDate(
 	                "Type the publication date: ", 
-	                LocalDate.now().minusYears(-1000), 
 	                LocalDate.now().minusYears(0), 
+	                LocalDate.now().minusYears(223), 
 	                "dd/MM/yyyy",
 	                true
 	            );
@@ -74,8 +74,8 @@ public class MagazineController{
 				String isbn = input.getString("Issue number: ", 10, 20, false);
 				LocalDate publication = input.getDate(
 		                "Type the publication date: ", 
-		                LocalDate.now().minusYears(-1000), 
 		                LocalDate.now().minusYears(0), 
+		                LocalDate.now().minusYears(223), 
 		                "dd/MM/yyyy",
 		                false
 		            );
@@ -94,7 +94,7 @@ public class MagazineController{
 	            magazineToUpdate.setLibrary((library != null) ? library : magazineToUpdate.getLibrary());
 
 				this.itemRepository.update(magazineToUpdate);
-	            System.out.println("update ta ok!");
+	            System.out.println("Update successfully done!");
 			}else System.out.println("Magazine not found!");
 			
 		} catch (Exception e) {

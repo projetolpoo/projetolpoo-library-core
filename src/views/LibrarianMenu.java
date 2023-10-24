@@ -1,12 +1,18 @@
 package src.views;
 
+import src.controllers.BookController;
 import src.controllers.LibrarianController;
 import src.controllers.LibraryController;
+import src.controllers.MagazineController;
+import src.controllers.MovieController;
 import src.helpers.Input;
 
 public class LibrarianMenu {
     private LibraryController libraryController;
     private LibrarianController librarianController;
+    private BookController bookController;
+    private MagazineController magazineController;
+    private MovieController movieController;
     private static LibrarianMenu instance;
 
     public static LibrarianMenu getInstance() {
@@ -25,13 +31,17 @@ public class LibrarianMenu {
     ) {
         this.libraryController = new LibraryController();
         this.librarianController = new LibrarianController();
+        this.bookController = new BookController();
+        this.magazineController = new MagazineController();
+        this.movieController = new MovieController();
     }
 
     private void options() {
         System.out.println("===== Menu =====");
         System.out.println("1. Library");
         System.out.println("2. Librarian");
-        System.out.println("3. Log out");
+        System.out.println("3. Labrary item");
+        System.out.println("4. Log out");
     }
 
     private void optionsLibrary() {
@@ -117,7 +127,164 @@ public class LibrarianMenu {
             }
         }
     }
+    
+    private void optionsLibraryItem() {
+        System.out.println("===== Menu Library items =====");
+        System.out.println("1. Book");
+        System.out.println("2. Magazine");
+        System.out.println("3. Movie");
+        System.out.println("4. Return");
+    }
 
+    private void optionsBook() {
+        System.out.println("===== Menu Book =====");
+        System.out.println("1. Create book");
+        System.out.println("2. Update book");
+        System.out.println("3. List book");
+        System.out.println("4. Delete book");
+        System.out.println("5. Return");
+    }
+    private void book()
+    {
+        while (true) {
+            this.optionsBook();
+    
+            int choice;
+            try {
+                choice = Input.getInstance().getInt("Type the option: ", 1, 5, true);
+            } catch (Exception e) {
+                choice = 999;
+            }
+
+            switch (choice) {
+                case 1:
+                    this.bookController.create();
+                    break;
+                case 2:
+                    this.bookController.update();
+                    break;
+                case 3:
+                    this.bookController.list();
+                    break;
+                case 4:
+                    this.bookController.delete();
+                    break;
+                case 5:
+                    return;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+    private void optionsMagazine() {
+        System.out.println("===== Menu Magazine =====");
+        System.out.println("1. Create magazine");
+        System.out.println("2. Update magazine");
+        System.out.println("3. List magazine");
+        System.out.println("4. Delete magazine");
+        System.out.println("5. Return");
+    }
+    private void magazine()
+    {
+        while (true) {
+            this.optionsMagazine();
+    
+            int choice;
+            try {
+                choice = Input.getInstance().getInt("Type the option: ", 1, 5, true);
+            } catch (Exception e) {
+                choice = 999;
+            }
+
+            switch (choice) {
+                case 1:
+                    this.magazineController.create();
+                    break;
+                case 2:
+                    this.magazineController.update();
+                    break;
+                case 3:
+                    this.magazineController.list();
+                    break;
+                case 4:
+                    this.magazineController.delete();
+                    break;
+                case 5:
+                    return;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+    private void optionsMovie() {
+        System.out.println("===== Menu Movie =====");
+        System.out.println("1. Create movie");
+        System.out.println("2. Update movie");
+        System.out.println("3. List movie");
+        System.out.println("4. Delete movie");
+        System.out.println("5. Return");
+    }
+    private void movie()
+    {
+        while (true) {
+            this.optionsMovie();
+    
+            int choice;
+            try {
+                choice = Input.getInstance().getInt("Type the option: ", 1, 5, true);
+            } catch (Exception e) {
+                choice = 999;
+            }
+
+            switch (choice) {
+                case 1:
+                    this.movieController.create();
+                    break;
+                case 2:
+                    this.movieController.update();
+                    break;
+                case 3:
+                    this.movieController.list();
+                    break;
+                case 4:
+                    this.movieController.delete();
+                    break;
+                case 5:
+                    return;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+    private void libraryItem()
+    {
+        while (true) {
+            this.optionsLibraryItem();
+    
+            int choice;
+            try {
+                choice = Input.getInstance().getInt("Type the option: ", 1, 4, true);
+            } catch (Exception e) {
+                choice = 999;
+            }
+
+            switch (choice) {
+                case 1:
+                    this.book();
+                    break;
+                case 2:
+                    this.magazine();
+                    break;
+                case 3:
+                    this.movie();
+                    break;
+                case 4:
+                    return;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
     public void run() {        
         while (true) {
             this.options();
@@ -137,6 +304,9 @@ public class LibrarianMenu {
                     this.librarian();
                     break;
                 case 3:
+                    this.libraryItem();
+                    break;
+                case 4:
                     return;
                 default:
                     System.out.println("Invalid choice. Please try again.");

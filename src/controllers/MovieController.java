@@ -31,8 +31,8 @@ public class MovieController {
 			int duration = input.getInt("Durantion: ", 30, 600, true);
 			LocalDate publication = input.getDate(
 	                "Type the publication date: ", 
-	                LocalDate.now().minusYears(-1000), 
 	                LocalDate.now().minusYears(0), 
+	                LocalDate.now().minusYears(223), 
 	                "dd/MM/yyyy",
 	                true
 	            );
@@ -73,8 +73,8 @@ public class MovieController {
 				int duration = input.getInt("Duration: ", 30, 600, false);
 				LocalDate publication = input.getDate(
 		                "Type the publication date: ", 
-		                LocalDate.now().minusYears(-1000), 
 		                LocalDate.now().minusYears(0), 
+		                LocalDate.now().minusYears(223), 
 		                "dd/MM/yyyy",
 		                false
 		            );
@@ -93,7 +93,7 @@ public class MovieController {
 	            movieToUpdate.setLibrary((library != null) ? library : movieToUpdate.getLibrary());
 
 				this.itemRepository.update(movieToUpdate);
-	            System.out.println("update ta ok!");
+	            System.out.println("Update successfully done!");
 			}else System.out.println("Movie not found!");
 			
 		} catch (Exception e) {
