@@ -54,7 +54,8 @@ public class BookController {
             
             System.out.println("Book sucefully created!\n");
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("Error!");
+			System.out.println(e.getMessage());
 		}
     }
     public void update() {        
@@ -98,6 +99,7 @@ public class BookController {
 			
 		} catch (Exception e) {
 			System.out.println("Error!");
+			System.out.println(e.getMessage());
 		}
     }
     public void list() {
@@ -109,6 +111,7 @@ public class BookController {
                 }
             }
         } catch (Exception e) {
+			System.out.println("Error!");
             System.out.println(e.getMessage());
         }
     }
@@ -126,6 +129,7 @@ public class BookController {
                 System.out.println("Sorry, book not found :(\n");
             }
         } catch (Exception e) {
+			System.out.println("Error!");
             System.out.println(e.getMessage());
         }
     }

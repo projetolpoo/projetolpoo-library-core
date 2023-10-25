@@ -53,7 +53,7 @@ public class MagazineController{
             System.out.println("Magazine sucefully created!\n");
 		} catch (Exception e) {
 			System.out.println("Error!");
-			e.getMessage();
+			System.out.println(e.getMessage());
 		}
     }
     public void update() {        
@@ -98,8 +98,8 @@ public class MagazineController{
 			}else System.out.println("Magazine not found!");
 			
 		} catch (Exception e) {
-			System.out.println("error!");
-			e.getMessage();
+			System.out.println("Error!");
+			System.out.println(e.getMessage());
 		}
     }
     public void list() {
@@ -111,6 +111,7 @@ public class MagazineController{
                 }
             }
         } catch (Exception e) {
+			System.out.println("Error!");
             System.out.println(e.getMessage());
         }
     }
@@ -128,6 +129,7 @@ public class MagazineController{
                 System.out.println("Sorry, magazine not found :(\n");
             }
         } catch (Exception e) {
+			System.out.println("Error!");
             System.out.println(e.getMessage());
         }
     }

@@ -40,7 +40,7 @@ public class LibrarianMenu {
         System.out.println("===== Menu =====");
         System.out.println("1. Library");
         System.out.println("2. Librarian");
-        System.out.println("3. Labrary item");
+        System.out.println("3. Library item");
         System.out.println("4. Log out");
     }
 

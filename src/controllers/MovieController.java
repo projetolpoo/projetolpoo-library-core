@@ -52,7 +52,8 @@ public class MovieController {
             
             System.out.println("Movie sucefully created!\n");
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("Error!");
+			System.out.println(e.getMessage());
 		}
     }
     public void update() {        
@@ -110,6 +111,7 @@ public class MovieController {
                 }
             }
         } catch (Exception e) {
+			System.out.println("Error!");
             System.out.println(e.getMessage());
         }
     }
@@ -127,6 +129,7 @@ public class MovieController {
                 System.out.println("Sorry, movie not found :(\n");
             }
         } catch (Exception e) {
+			System.out.println("Error!");
             System.out.println(e.getMessage());
         }
     }
