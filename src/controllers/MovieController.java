@@ -11,126 +11,129 @@ import src.repositories.LibraryItemRepository;
 import src.repositories.LibraryRepository;
 
 public class MovieController {
-    private LibraryItemRepository itemRepository;
-    private LibraryRepository libraryRepository;
-    
-    public MovieController() {
-    	this.itemRepository=LibraryItemRepository.getInstance();
-    	this.libraryRepository=LibraryRepository.getInstance();
-    }
-    
-    public void create() {        
-        try {
-            Input input = Input.getInstance();
+	private LibraryItemRepository itemRepository;
+	private LibraryRepository libraryRepository;
 
-			String title=input.getString("Movie title: ", 1, 50, true);
-			String author=input.getString("Movie author: ", 4, 50, true);
+	public MovieController() {
+		this.itemRepository = LibraryItemRepository.getInstance();
+		this.libraryRepository = LibraryRepository.getInstance();
+	}
+
+	public void create() {
+		try {
+			Input input = Input.getInstance();
+
+			String title = input.getString("Movie title  (between 1 and 50 characters): ", 1, 50, true);
+			String author = input.getString("Movie author  (between 4 and 50 characters): ", 4, 50, true);
 			GenderEnum gender = Input.getInstance().getGender(true);
-			int inventory=input.getInt("Quantity: ", 10, 50000, true);
-			double fineValue=input.getDouble("Value fine: ", 0, 50, true);
-			int duration = input.getInt("Durantion: ", 30, 600, true);
+			int inventory = input.getInt("Quantity  (between 10 and 50000): ", 10, 50000, true);
+			double fineValue = input.getDouble("Value fine (between 0 and 50): ", 0, 50, true);
+			int duration = input.getInt("Durantion (between 30 and 600): ", 30, 600, true);
 			LocalDate publication = input.getDate(
-	                "Type the publication date: ", 
-	                LocalDate.now().minusYears(0), 
-	                LocalDate.now().minusYears(223), 
-	                "dd/MM/yyyy",
-	                true
-	            );
-			
+					"Type the publication date: ",
+					LocalDate.now().minusYears(0),
+					LocalDate.now().minusYears(223),
+					"dd/MM/yyyy",
+					true);
+
 			int id = input.getInt("Type the library's id: ", 1, 9999, true);
 
-            Library library = this.libraryRepository.getById(id);
+			Library library = this.libraryRepository.getById(id);
 
-            if (library == null) {
-                throw new Exception("Sorry, invalid library :(\n");
-            }
-            Movie movie = new Movie(title, author, inventory, library, fineValue, gender, publication, duration);
-            this.itemRepository.add(movie);
-            
-            library.addItem(movie);//adiciona o item criado na lista de item em Library
-            this.libraryRepository.update(library);//como um novo item foi adicionado na Library, precisar ser atualizada
-            
-            System.out.println("Movie sucefully created!\n");
+			if (library == null) {
+				throw new Exception("Sorry, invalid library :(\n");
+			}
+			Movie movie = new Movie(title, author, inventory, library, fineValue, gender, publication, duration);
+			this.itemRepository.add(movie);
+
+			library.addItem(movie);// adiciona o item criado na lista de item em Library
+			this.libraryRepository.update(library);// como um novo item foi adicionado na Library, precisar ser
+													// atualizada
+
+			System.out.println("Movie sucefully created!\n");
 		} catch (Exception e) {
 			System.out.println("Error!");
 			System.out.println(e.getMessage());
 		}
-    }
-    public void update() {        
-        try {
-            Input input = Input.getInstance();
+	}
 
-			int id=input.getInt("Movie  id: ", 1, 9999, true);
+	public void update() {
+		try {
+			Input input = Input.getInstance();
 
-			LibraryItem item=this.itemRepository.getById(id);
-			
-			if (item!=null && item instanceof Movie) {
-				Movie movieToUpdate=(Movie) item;
-				String title=input.getString("Movie title: ", 1, 50, false);
-				String author=input.getString("Movie author: ", 4, 50, false);
+			int id = input.getInt("Movie  id: ", 1, 9999, true);
+
+			LibraryItem item = this.itemRepository.getById(id);
+
+			if (item != null && item instanceof Movie) {
+				Movie movieToUpdate = (Movie) item;
+				String title = input.getString("Movie title  (between 1 and 50 characters): ", 1, 50, false);
+				String author = input.getString("Movie author  (between 4 and 50 characters): ", 4, 50, false);
 				GenderEnum gender = Input.getInstance().getGender(false);
-				int inventory=input.getInt("Quantity: ", 0, 50000, false);
-				double fineValue=input.getDouble("Value fine: ", 0, 50, false);
-				int duration = input.getInt("Duration: ", 30, 600, false);
+				int inventory = input.getInt("Quantity  (between 10 and 50000): ", 10, 50000, false);
+				double fineValue = input.getDouble("Value fine (between 0 and 50): ", 0, 50, false);
+				int duration = input.getInt("Durantion (between 30 and 600): ", 30, 600, false);
 				LocalDate publication = input.getDate(
-		                "Type the publication date: ", 
-		                LocalDate.now().minusYears(0), 
-		                LocalDate.now().minusYears(223), 
-		                "dd/MM/yyyy",
-		                false
-		            );
-				
+						"Type the publication date: ",
+						LocalDate.now().minusYears(0),
+						LocalDate.now().minusYears(223),
+						"dd/MM/yyyy",
+						false);
+
 				int id1 = input.getInt("Type the library's id: ", 1, 9999, true);
 
-	            Library library = this.libraryRepository.getById(id1);
-	            
-	            movieToUpdate.setTitle((title != null) ? title : movieToUpdate.getTitle());
-	            movieToUpdate.setAuthor((author != null) ? author : movieToUpdate.getAuthor());
+				Library library = this.libraryRepository.getById(id1);
+
+				movieToUpdate.setTitle((title != null) ? title : movieToUpdate.getTitle());
+				movieToUpdate.setAuthor((author != null) ? author : movieToUpdate.getAuthor());
 				movieToUpdate.setGender((gender != null) ? gender : movieToUpdate.getGender());
-	            movieToUpdate.setInventory((inventory != 0) ? inventory : movieToUpdate.getInventory());
-	            movieToUpdate.setFineValue((fineValue != 0) ? fineValue : movieToUpdate.getFineValue());
-	            movieToUpdate.setDuration((duration != 0) ? duration : movieToUpdate.getDuration());
-	            movieToUpdate.setPublication((publication != null) ? publication : movieToUpdate.getPublication());
-	            movieToUpdate.setLibrary((library != null) ? library : movieToUpdate.getLibrary());
+				movieToUpdate.setInventory((inventory != 0) ? inventory : movieToUpdate.getInventory());
+				movieToUpdate.setFineValue((fineValue != 0) ? fineValue : movieToUpdate.getFineValue());
+				movieToUpdate.setDuration((duration != 0) ? duration : movieToUpdate.getDuration());
+				movieToUpdate.setPublication((publication != null) ? publication : movieToUpdate.getPublication());
+				movieToUpdate.setLibrary((library != null) ? library : movieToUpdate.getLibrary());
 
 				this.itemRepository.update(movieToUpdate);
-	            System.out.println("Update successfully done!");
-			}else System.out.println("Movie not found!");
-			
+				System.out.println("Update successfully done!");
+			} else
+				System.out.println("Movie not found!");
+
 		} catch (Exception e) {
 			System.out.println("Error!");
-			System.out.println( e.getMessage());
+			System.out.println(e.getMessage());
 		}
-    }
-    public void list() {
-        try {
-            for (LibraryItem item: itemRepository.getAll()) {
-                if (item instanceof Movie) {
-                	Movie i=((Movie)item);
-                    System.out.println(i.getId() + ". " + i.toString());
-                }
-            }
-        } catch (Exception e) {
+	}
+
+	public void list() {
+		try {
+			for (LibraryItem item : itemRepository.getAll()) {
+				if (item instanceof Movie) {
+					Movie i = ((Movie) item);
+					System.out.println(i.getId() + ". " + i.toString());
+				}
+			}
+		} catch (Exception e) {
 			System.out.println("Error!");
-            System.out.println(e.getMessage());
-        }
-    }
-    public void delete() {
-        try {
-            Input input = Input.getInstance();
+			System.out.println(e.getMessage());
+		}
+	}
 
-            int id = input.getInt("Type the movie' id: ", 1, 9999, true);
+	public void delete() {
+		try {
+			Input input = Input.getInstance();
 
-            boolean result = this.itemRepository.delete(id);
+			int id = input.getInt("Type the movie' id: ", 1, 9999, true);
 
-            if (result) {
-                System.out.println("Movie sucefully deleted!!\n");
-            } else {
-                System.out.println("Sorry, movie not found :(\n");
-            }
-        } catch (Exception e) {
+			boolean result = this.itemRepository.delete(id);
+
+			if (result) {
+				System.out.println("Movie sucefully deleted!!\n");
+			} else {
+				System.out.println("Sorry, movie not found :(\n");
+			}
+		} catch (Exception e) {
 			System.out.println("Error!");
-            System.out.println(e.getMessage());
-        }
-    }
+			System.out.println(e.getMessage());
+		}
+	}
 }

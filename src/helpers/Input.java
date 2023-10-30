@@ -133,38 +133,38 @@ public class Input {
         GenderEnum value = null;
         while (true) {
             try {
-                int i = 0;
+                int i = 1;
                 System.out.println("Choose between the options above");
                 for (GenderEnum option: GenderEnum.values()) {
                     System.out.println(i++ + "." + " " + option);
                 }
 
-                int input = this.getInt("Select one of them: ", 1, 10, validate);
+                int input = this.getInt("Select one of them: ", 1, 11, validate);
 
                 switch (input) {
                     case 1:
-                        value = GenderEnum.FANTASIA;
+                        value = GenderEnum.FANTASY;
                         break;
                     case 2:
-                        value = GenderEnum.FICCAO;
+                        value = GenderEnum.FICTION;
                         break;
                     case 3:
-                        value = GenderEnum.ACAO;
+                        value = GenderEnum.ACTION;
                         break;
                     case 4:
                         value = GenderEnum.HORROR;
                         break;
                     case 5:
-                        value = GenderEnum.CONTO;
+                        value = GenderEnum.TALE;
                         break;
                     case 6:
                         value = GenderEnum.ROMANCE;
                         break;
                     case 7:
-                        value = GenderEnum.INFANTIL;
+                        value = GenderEnum.KIDS;
                         break;
                     case 8:
-                        value = GenderEnum.BIOGRAFIA;
+                        value = GenderEnum.BIOGRAPHY;
                         break;
                     case 9:
                         value = GenderEnum.CRIME;
@@ -173,7 +173,7 @@ public class Input {
                         value = GenderEnum.HUMOR;
                         break;
                     case 11:
-                        value = GenderEnum.TECNOLOGIA;
+                        value = GenderEnum.TECHNOLOGY;
                         break;
                 }
 

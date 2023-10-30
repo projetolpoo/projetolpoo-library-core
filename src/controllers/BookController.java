@@ -24,12 +24,12 @@ public class BookController {
         try {
             Input input = Input.getInstance();
 
-			String title=input.getString("Book title: ", 1, 50, true);
-			String author=input.getString("Book author: ", 4, 50, true);
+			String title=input.getString("Book title (between 1 and 50): ", 1, 50, true);
+			String author=input.getString("Book author (between 4 and 50): ", 4, 50, true);
 			GenderEnum gender = Input.getInstance().getGender(true);
-			int inventory=input.getInt("Quantity: ", 10, 50000, true);
-			double fineValue=input.getDouble("Value fine: ", 0, 20, true);
-			String isbn = input.getString("ISBN: ", 10, 20, true);
+			int inventory=input.getInt("Quantity (between 10 and 500000): ", 10, 50000, true);
+			double fineValue=input.getDouble("Value fine (between 0 and 20): ", 0, 20, true);
+			String isbn = input.getString("ISBN (between 10 and 20): ", 10, 20, true);
 			LocalDate publication = input.getDate(
 	                "Type the publication date: ", 
 	                LocalDate.now().minusYears(0), 
@@ -67,12 +67,12 @@ public class BookController {
 			
 			if (item!=null && item instanceof Book) {
 				Book book=(Book) item;
-				String title=input.getString("Book title: ", 1, 50, false);
-				String author=input.getString("Book author: ", 4, 50, false);
+				String title=input.getString("Book title (between 1 and 50 character): ", 1, 50, false);
+				String author=input.getString("Book author (between 4 and 50 character): ", 4, 50, false);
 				GenderEnum gender = Input.getInstance().getGender(false);
-				int inventory=input.getInt("Quantity: ", 0, 50000, false);
-				double fineValue=input.getDouble("Value fine: ", 0, 50, false);
-				String isbn = input.getString("ISBN: ", 10, 20, false);
+				int inventory=input.getInt("Quantity (between 0 and 500000): ", 0, 50000, false);
+				double fineValue=input.getDouble("Value fine (between 0 and 50): ", 0, 50, false);
+				String isbn = input.getString("ISBN (between 10 and 20 character): ", 10, 20, false);
 				LocalDate publication = input.getDate(
 		                "Type the publication date: ", 
 		                LocalDate.now().minusYears(0), 

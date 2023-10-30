@@ -23,12 +23,12 @@ public class MagazineController{
         try {
             Input input = Input.getInstance();
 
-			String title=input.getString("Magazine title: ", 1, 50, true);
-			String author=input.getString("Magazine author: ", 4, 50, true);
+			String title=input.getString("Magazine title (between 0 and 50 characters): ", 1, 50, true);
+			String author=input.getString("Magazine author (between 4 and 50 characters): ", 4, 50, true);
 			GenderEnum gender = Input.getInstance().getGender(true);
-			int inventory=input.getInt("Quantity: ", 10, 50000, true);
-			double fineValue=input.getDouble("Value fine: ", 0, 50, true);
-			String issue = input.getString("ISBN: ", 10, 20, true);
+			int inventory=input.getInt("Quantity (between 10 and 50000): ", 10, 50000, true);
+			double fineValue=input.getDouble("Value fine (between 0 and 50): ", 0, 50, true);
+			String issue = input.getString("ISBN (between 10 and 20 characters): ", 10, 20, true);
 			LocalDate publication = input.getDate(
 	                "Type the publication date: ", 
 	                LocalDate.now().minusYears(0), 
@@ -66,12 +66,12 @@ public class MagazineController{
 			if (item!=null && item instanceof Magazine) {
 				Magazine magazineToUpdate=(Magazine)item;
 
-				String title=input.getString("Magazine title: ", 1, 50, false);
-				String author=input.getString("Magazine author: ", 4, 50, false);
+				String title=input.getString("Magazine title (between 0 and 50 characters): ", 1, 50, false);
+				String author=input.getString("Magazine author (between 4 and 50 characters): ", 4, 50, false);
 				GenderEnum gender = Input.getInstance().getGender(false);
-				int inventory=input.getInt("Quantity: ", 0, 50000, false);
-				double fineValue=input.getDouble("Value fine: ", 0, 50, false);
-				String isbn = input.getString("Issue number: ", 10, 20, false);
+				int inventory=input.getInt("Quantity (between 10 and 50000): ", 10, 50000, false);
+				double fineValue=input.getDouble("Value fine (between 0 and 50): ", 0, 50, false);
+				String isbn = input.getString("ISBN (between 10 and 20 characters): ", 10, 20, false);
 				LocalDate publication = input.getDate(
 		                "Type the publication date: ", 
 		                LocalDate.now().minusYears(0), 
