@@ -1,10 +1,6 @@
 package src.views;
 
-import src.controllers.BookController;
-import src.controllers.LibrarianController;
-import src.controllers.LibraryController;
-import src.controllers.MagazineController;
-import src.controllers.MovieController;
+import src.controllers.*;
 import src.helpers.Input;
 
 public class LibrarianMenu {
@@ -13,6 +9,7 @@ public class LibrarianMenu {
     private BookController bookController;
     private MagazineController magazineController;
     private MovieController movieController;
+    private BorrowController borrowController;
     private static LibrarianMenu instance;
 
     public static LibrarianMenu getInstance() {
@@ -34,6 +31,7 @@ public class LibrarianMenu {
         this.bookController = new BookController();
         this.magazineController = new MagazineController();
         this.movieController = new MovieController();
+        this.borrowController = new BorrowController();
     }
 
     private void options() {
@@ -41,7 +39,8 @@ public class LibrarianMenu {
         System.out.println("1. Library");
         System.out.println("2. Librarian");
         System.out.println("3. Labrary item");
-        System.out.println("4. Log out");
+        System.out.println("4. Borrow item");
+        System.out.println("5. Log out");
     }
 
     private void optionsLibrary() {
@@ -285,13 +284,57 @@ public class LibrarianMenu {
             }
         }
     }
+
+    private void optionsBorrow(){
+        System.out.println("===== Borrow Menu =====");
+        System.out.println("1. Create borrow");
+        System.out.println("2. Uptade borrow"); //falta implementar
+        System.out.println("3. List borrow");
+        System.out.println("4. Delete borrow");
+        System.out.println("5. Return");
+    }
+    private void borrowItem(){
+
+        while (true){
+
+            this.optionsBorrow();
+
+            int choice;
+            try {
+                choice = Input.getInstance().getInt("Type the option: ", 1, 5, true);
+            }catch (Exception e){
+                choice = 999;
+            }
+
+            switch (choice) {
+                case 1:
+                    this.borrowController.create();
+                    break;
+                case 2:
+                    this.borrowController.uptade();
+                    break;
+                case 3:
+                    this.borrowController.list();
+                    break;
+                case 4:
+                    this.borrowController.delete();
+                    break;
+                case 5:
+                    return;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+
+            }
+        }
+    }
+
     public void run() {        
         while (true) {
             this.options();
     
             int choice;
             try {
-                choice = Input.getInstance().getInt("Type the option: ", 1, 3, true);
+                choice = Input.getInstance().getInt("Type the option: ", 1, 5, true);
             } catch (Exception e) {
                 choice = 999;
             }
@@ -307,6 +350,9 @@ public class LibrarianMenu {
                     this.libraryItem();
                     break;
                 case 4:
+                    this.borrowItem();
+                    break;
+                case 5:
                     return;
                 default:
                     System.out.println("Invalid choice. Please try again.");
