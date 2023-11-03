@@ -5,15 +5,16 @@ import src.enums.StatusEnum;
 import java.time.LocalDate;
 
 public class Borrow {
+    private Integer id;
     private LibraryItem libraryItem;
     private User user;
     private LocalDate startDate;
     private LocalDate endDate;
     private Integer quantity;
     private StatusEnum status;
-    private Float fineValue;
+    private Double fineValue;
 
-    public Borrow(LibraryItem libraryItem, User user, LocalDate startDate, LocalDate endDate, Integer quantity, StatusEnum status, Float fineValue) {
+    public Borrow(LibraryItem libraryItem, User user, LocalDate startDate, LocalDate endDate, Integer quantity, StatusEnum status, Double fineValue) {
         this.libraryItem = libraryItem;
         this.user = user;
         this.startDate = startDate;
@@ -71,15 +72,21 @@ public class Borrow {
         this.status = status;
     }
 
-    public Float getFineValue() {
+    public Double getFineValue() {
         return fineValue;
     }
 
-    public void setFineValue(Float fineValue) {
+    public void setFineValue(Double fineValue) {
         this.fineValue = fineValue;
     }
 
+    public Integer getId() {
+        return id;
+    }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     @Override
     public String toString() {

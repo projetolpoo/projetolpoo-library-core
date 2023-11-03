@@ -28,7 +28,7 @@ public class Main {
             if(auth.getUser() instanceof Librarian) {
                 LibrarianMenu.getInstance().run();
             } else {
-                //implement user menu
+                UserMenu.getInstance().run(auth.getUser().getDocumentNumber());
             }
         }
     }

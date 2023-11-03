@@ -311,7 +311,7 @@ public class LibrarianMenu {
                     this.borrowController.create();
                     break;
                 case 2:
-                    this.borrowController.uptade();
+                    this.borrowController.update();
                     break;
                 case 3:
                     this.borrowController.list();
